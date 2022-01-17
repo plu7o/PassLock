@@ -7,7 +7,7 @@ import secrets
 from passlib.hash import bcrypt
 from model import Account
 from database import get_account_by_service, get_account_by_email, get_account_by_name, get_all_accounts, insert_account
-from passlock_crypt import gen_password, encrypt, decrypt
+from passlocker import gen_password, encrypt, decrypt
 
 SECRET_KEY = 'kObYejRkQTRDAxAcVKPzi_ZeT93yHB7Riv9xKEC8lgk='
 HASH = "$2b$14$dTRtdItLbtMenHUc.tuPxukJi3wW.ku86PLBWPLZb8CjncmtCS5fy"
@@ -56,7 +56,7 @@ def add(service: str, email: str, name: str='', password: str='', url: str='', g
 		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ DONE ✅")
 
 @app.command(short_help='Delete Account in Database')
-def del():
+def delete():
 	pass
 
 @app.command(short_help='Update Account details')
