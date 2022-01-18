@@ -27,6 +27,8 @@ i'm not responsible for any harm that may be caused by yourself or others
 - [x] Added ID unique identifyer to account model
 - [ ] rebuild passlocker.py to class
 - [ ] Make generated password more Random (weird bug: "email + random-token -> same result why?)
+- [ ] Relocate passlock.db to /var/
+- [ ] Add requirments.txt
 - [ ] more...
 
 ---
