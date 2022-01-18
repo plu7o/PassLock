@@ -31,7 +31,6 @@ def gen_token(length: int=48):
 	token = ''.join(secrets.choice(alphabet) for i in range(length))
 	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ TOKEN: {token}")
 
-
 @app.command(short_help='Utility Hashing function to Hash password using bcrypt')	
 def get_hash(password: str):
 	console.print("[purple3]PASS🔒LOCK[/purple3]$ Generating Hash...")
@@ -40,36 +39,35 @@ def get_hash(password: str):
 	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ HASH: {hashed_password}")
 	return hashed_password
 
-
 @app.command(short_help='Adds Account to Database')
 def add(service: str, email: str, name: str='/', password: str='', url: str='/', genpass: bool=True):
-#	if verify_master():
-	if genpass:
-		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ Generating secure password...")
+	if verify_master():
+		if genpass:
+			console.print(f"[purple3]PASS🔒LOCK[/purple3]$ Generating secure password...")
 
-		password = gen_password(email, gen_token())
-	else:
-		password = console.input("[purple3]PASS🔒LOCK[/purple3]$ Enter [bold cyan]password[/bold cyan] : ")
-	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ adding account to database: {service}|{email}:{password}")
-	account = Account(service, name, email, encrypt(password), url)
-	insert_account(account)
-	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ DONE ✅")
+			password = gen_password(email, gen_token())
+		else:
+			password = console.input("[purple3]PASS🔒LOCK[/purple3]$ Enter [bold cyan]password[/bold cyan] : ")
+		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ adding account to database: {service}|{email}:{password}")
+		account = Account(encrypt(service), encrypt(name), encrypt(email), encrypt(password), encrypt(url))
+		insert_account(account)
+		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ DONE ✅")
 
 @app.command(short_help='Delete Account in Database')
 def delete(id: int):
-#	if verify_master():
-	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ DELETING Account: {id}")
-	delete_account(id)
+	if verify_master():
+		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ DELETING Account: {id}")
+		delete_account(id)
 
 @app.command(short_help='Update Account details')
 def update(id: int, services: str=None, name: str=None, email: str=None, password: str=None, url: str=None ):
-#	if verify_master():
-	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ UPDATING Account: {id}")
-	update_account(id, service, name, email, encrypt(password), url)
+	if verify_master():
+		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ UPDATING Account: {id}")
+		update_account(id, encrypt(service), encrypt(name), encrypt(email), encrypt(password), encrypt(url))
 	
 @app.command(short_help='Find Account details by Identifier')
 def find(all: bool=False, email: bool=False, name: bool=False):
-#	if verify_master():
+	if verify_master():
 		if all:
 			accounts = get_all_accounts()
 		elif email:
@@ -90,7 +88,7 @@ def find(all: bool=False, email: bool=False, name: bool=False):
 		table.add_column("Password", min_width=20)
 		table.add_column("URL")
 		for account in accounts:
-			table.add_row(str(account.id), account.service, account.name, account.email, decrypt(account.password), account.url)
+			table.add_row(str(account.id), decrypt(account.service), decrypt(account.name), decrypt(account.email), decrypt(account.password), decrypt(account.url))
 		console.print(table)
 
 banner = """
