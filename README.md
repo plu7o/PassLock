@@ -11,8 +11,15 @@ i'm not responsible for any harm that may be caused by yourself or others
 '''
 
 # TODO:
-- Implement Delete function
-- Implement Update function
-- Saving Secret-keys securly
+- [x] Implement Delete function
+- [x] Implement Update function
+- [ ] Saving Secret-keys securly
+- [x] Added ID identifyer to account model
+- [ ] rebuild passlocker.py to class
+- [ ] Make generated password more Random (weird bug: "email + random-token -> same result why?)
+
+
+
+
 
 

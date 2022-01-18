@@ -3,7 +3,7 @@ import random
 from cryptography.fernet import Fernet
 import string
 
-key = "Hfh_Kip2dCRxf_bsQfuniJfszNkOgNGU9gdLyOdwjCM="
+key = "Bg3KAwPUyOzp1LZKWFmP-rcz6PcufwLM52GFmHZ_SAc="
 fernet = Fernet(key)
 ALPHABET = string.ascii_letters + string.digits + string.punctuation
 
@@ -21,7 +21,7 @@ def encrypt(plaintext):
 def decrypt(cypher):
 	return fernet.decrypt(cypher).decode()
 	
-def gen_password(plaintext, service, length=16, alphabet=ALPHABET):
+def gen_password(plaintext, service, length=18, alphabet=ALPHABET):
     raw_hexdigest = build_password(plaintext, service)
 
     # Convert the hexdigest into decimal
