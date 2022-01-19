@@ -49,8 +49,8 @@ i'm not responsible for any harm that may be caused by yourself or others
 
 ---
 ### Usage:
-    $ python3 passlocker.py COMMAND [OPTIONS] [ARGS]
-    $ python3 passlocker.py --help
+    $ python3 passlock.py COMMAND [OPTIONS] [ARGS]
+    $ python3 passlock.py --help
     	
     >	Commands:
     	add        Adds Account to Database
@@ -62,20 +62,20 @@ i'm not responsible for any harm that may be caused by yourself or others
 ---
 ### Example:
 #### Adding account: 
-    $ python3 passlocker.py add [service] [email] [OPTIONS]
-    $ python3 passlocker.py add facebook test@gamil.com --url https://facebook.com
+    $ python3 passlock.py add [service] [email] [OPTIONS]
+    $ python3 passlock.py add facebook test@gamil.com --url https://facebook.com
 
 #### Deleting account:
-    $ python3 passlocker.py delete [ID]
-    $ python3 passlocker.py delete 38950
+    $ python3 passlock.py delete [ID]
+    $ python3 passlock.py delete 38950
 
 #### Updating account:
-    $ python3 passlocker.py update [ID] [OPTIONS]
-    $ python3 passlocker.py update 38950 --email newEmail@gmail.com
+    $ python3 passlock.py update [ID] [OPTIONS]
+    $ python3 passlock.py update 38950 --email newEmail@gmail.com
 
 #### find account:
-    $ python3 passlocker.py find [service] | [OPTIONS]
-    $ python3 passlocker.py find facebook | find --all
+    $ python3 passlock.py find [service] | [OPTIONS]
+    $ python3 passlock.py find facebook | find --all
 
 ---
 ### Refrences:
