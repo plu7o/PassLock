@@ -19,34 +19,40 @@ passlocker = Passlocker(SECRET_KEY)
 
 def verify_master():
 	attempt = 0
-	master_password = getpass.getpass()
-	SECRET_USER = os.environ.get('secretUser')
-	passwd = f'{SECRET_KEY}{master_password}'
-	if passlocker.hasher.verify(passwd, SECRET_USER):
-		console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink green]Welcome Master[/blink green]")
-		return True	
-	elif attempt == 3:
-		console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink red]FUCK YOU!🖕[/blink red]")
-		console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink green]Too many attempts[/blink green]")
-		exit(1)
-	else:
-		console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink red]FUCK YOU!🖕[/blink red]")
-		console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink green]Try again[/blink green]")
-		verify_master()
+	while attempt != 3:
+		master_password = getpass.getpass()
+		SECRET_USER = os.environ.get('secretUser')
+		passwd = f'{SECRET_KEY}{master_password}'
+		if passlocker.hasher.verify(passwd, SECRET_USER):
+			console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink green]Welcome Master[/blink green]")
+			attempt = 0
+			return True	
+		elif attempt == 3:
+			console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink red]FUCK YOU!🖕[/blink red]")
+			console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink red]Too many attempts[/bliredd]")
+			exit(1)
+		else:
+			console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink red]FUCK YOU!🖕[/blink red]")
+			console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink green]Try again[/blink green]")
+			attempt += 1
 		
 @app.command(short_help='Utility function to generate random 48-long Token')
-def gen_token(length: int=48):
+def gen_token(length: int=typer.Option(48, '-l', help='length of the generated token' )):
 	token = passlocker.gen_token(length)
 	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ TOKEN: {token}")
 
 @app.command(short_help='Utility Hashing function to Hash password using bcrypt')	
-def get_hash(password: str):
+def gen_hash(password: str):
 	console.print("[purple3]PASS🔒LOCK[/purple3]$ Generating Hash...")
 	hashed_password = passlocker.gen_hash(password)
 	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ HASH: {hashed_password}")
 
 @app.command(short_help='Adds Account to Database')
-def add(service: str, email: str, name: str='/', url: str='/', gen: bool=True):
+def add(service: str, email: str, \
+	name: str=typer.Option('/', '-n', '--name', help='Add Name to account when creating entry', show_default=False), \
+	url: str=typer.Option('/','-u', '--url', help='Add Url to account when creating entry', show_default=False), \
+	gen: bool=typer.Option(True, '-g', '--no-gen', help='No password gets generated prompt to enter Existing Password', show_default=False)):
+	
 	if verify_master():
 		if gen:
 			console.print(f"[purple3]PASS🔒LOCK[/purple3]$ Generating secure password...")
@@ -66,7 +72,13 @@ def delete(id: int):
 		delete_account(id)
 
 @app.command(short_help='Update Account details')
-def update(id: int, service: str=None, name: str=None, email: str=None, password: str=None, url: str=None ):
+def update(id: int, \
+	service: str=typer.Option(None, '-s', '--service', help='Update Service'),\
+	name: str=typer.Option(None, '-n', '--name', help='Update Name'), \
+	email: str=typer.Option(None, '-e', '--email', help='Update emial'), \
+	password: str=typer.Option(None, '-p', '--password', help='Update passsword'), \
+	url: str=typer.Option(None, '-u', '--url', help='Update URL')):
+	
 	if verify_master():
 		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ UPDATING Account: {id}")
 		if service is not None:
@@ -83,10 +95,14 @@ def update(id: int, service: str=None, name: str=None, email: str=None, password
 		update_account(id, service, name, email, password, url)
 	
 @app.command(short_help='Find Account details by Identifier')
-def find(all: bool=False, email: bool=False, name: bool=False):
+def find(service: bool=typer.Option(False, '-s', '--service', help='Search accounts by Service'), \
+	name: bool=typer.Option(False, '-n', '--name', help='Search accounts by Name'), \
+	email: bool=typer.Option(False, '-e', '--name', help='Search accounts by Email')):
+	
 	if verify_master():
-		if all:
-			accounts = get_all_accounts()
+		if service:
+			search = console.input("[purple3]PASS🔒LOCK[/purple3]$ Find by [bold cyan]Service[/bold cyan]? : ")
+			accounts = get_all_account_by_service(search)
 		elif email:
 			search = console.input("[purple3]PASS🔒LOCK[/purple3]$ Find by [bold cyan]Email[/bold cyan]? : ")
 			accounts = get_account_by_email(search)
@@ -94,8 +110,7 @@ def find(all: bool=False, email: bool=False, name: bool=False):
 			search = console.input("[purple3]PASS🔒LOCK[/purple3]$ Find by [bold cyan]Name[/bold cyan]? : ")
 			accounts = get_account_by_name(search)
 		else:
-			search = console.input("[purple3]PASS🔒LOCK[/purple3]$ Find by [bold cyan]Service[/bold cyan]? : ")
-			accounts = get_account_by_service(search)
+			accounts = get_all_accounts()
 		
 		table  = Table(show_header=True, header_style="bold blue", caption="Search Result")
 		table.add_column("ID")
