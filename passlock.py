@@ -56,7 +56,6 @@ def add(service: str, email: str, \
 	if verify_master():
 		if gen:
 			console.print(f"[purple3]PASS🔒LOCK[/purple3]$ Generating secure password...")
-
 			password = passlocker.gen_password(18)
 		else:
 			password = console.input("[purple3]PASS🔒LOCK[/purple3]$ Enter Account [bold cyan]password[/bold cyan] : ")
