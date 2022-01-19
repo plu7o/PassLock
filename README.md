@@ -63,9 +63,9 @@ i'm not responsible for any harm that may be caused by yourself or others
 ### Example:
 #### Adding account: 
 * Options:
-    --name
-    --url
-    --gen | --no-gen
+--name
+--url
+--gen | --no-gen
     
     $ python3 passlocker.py add [service] [email] [OPTIONS]
     $ python3 passlocker.py add facebook test@gamil.com --url https://facebook.com
@@ -76,20 +76,20 @@ i'm not responsible for any harm that may be caused by yourself or others
 
 #### Updating account:
  * Options:
-    --service
-    --name
-    --email
-    --password
-    --url
+--service
+--name
+--email
+--password
+--url
     
     $ python3 passlocker.py update [ID] [OPTIONS]
     $ python3 passlocker.py update 38950 --email newEmail@gmail.com
 
 #### find account:
  * Options:
-    --all
-    --email
-    --name
+--all
+--email
+--name
     
     $ python3 passlocker.py find [service] [OPTIONS]
     $ python3 passlocker.py find facebook | find --all
