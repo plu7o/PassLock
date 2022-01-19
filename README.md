@@ -18,19 +18,19 @@ i'm not responsible for any harm that may be caused by yourself or others
 
 ---
 ### Todo:
-- [x] Implement Add function
-- [x] Implement Find function
-- [x] Implement Delete function
-- [x] Implement Update function
-- [ ] Saving Secret-keys securly (Secret-key file)
-- [x] Encrypt all db entries - current: only password
-- [x] Added ID unique identifyer to account model
+- [x] Implement Add command
+- [x] Implement Find command
+- [x] Implement Delete command
+- [x] Implement Update command
+- [x] Loading Secret-keys securly (.env file)
+- [x] Encrypt all db entries
+- [x] Add ID unique identifyer to account model
 - [ ] rebuild passlocker.py to class
-- [ ] Make generated password more Random (weird bug: "email + random-token -> same result why?)
-- [ ] Relocate passlock.db to /var/
+- [ ] Make strong password generator
+- [x] Relocate passlock.db
 - [ ] Add requirments.txt
 - [ ] Add short - flags to CLI
-- [ ] more...
+- [ ] more...?
 
 ---
 ### Installation

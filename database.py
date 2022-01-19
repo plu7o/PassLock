@@ -4,8 +4,11 @@ import datetime
 from model import Account
 import secrets
 import string
+import os
+from dotenv import load_dotenv
 
-conn = sqlite3.connect('/usr/share/.passlock/passlock.db')
+load_dotenv()
+conn = sqlite3.connect(os.environ.get('secretPath'))
 c = conn.cursor()
 
 def create_table():
