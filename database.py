@@ -10,11 +10,11 @@ c = conn.cursor()
 
 def create_table():
 	c.execute("""CREATE TABLE IF NOT EXISTS passlock ( 
-		service text,
-		name text,
-		email text,
+		service blob,
+		name blob,
+		email blob,
 		password blob,
-		url text,
+		url blob,
 		id integer,
 		date_added text
 		)""")

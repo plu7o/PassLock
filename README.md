@@ -29,6 +29,7 @@ i'm not responsible for any harm that may be caused by yourself or others
 - [ ] Make generated password more Random (weird bug: "email + random-token -> same result why?)
 - [ ] Relocate passlock.db to /var/
 - [ ] Add requirments.txt
+- [ ] Add short - flags to CLI
 - [ ] more...
 
 ---
@@ -45,7 +46,7 @@ i'm not responsible for any harm that may be caused by yourself or others
 
 ---
 ### Refrences:
-    * add mising information
+* https://www.realpythonproject.com/3-ways-to-store-and-read-credentials-locally-in-python/
 
 
 

@@ -5,20 +5,24 @@ import getpass
 import string
 import secrets
 from passlib.hash import bcrypt
+import os
+from dotenv import load_dotenv
 from model import Account
 from database import get_account_by_service, get_account_by_email, get_account_by_name, get_all_accounts, insert_account, delete_account, update_account
 from passlocker import gen_password, encrypt, decrypt
 
-SECRET_KEY = 'kObYejRkQTRDAxAcVKPzi_ZeT93yHB7Riv9xKEC8lgk='
-HASH = "$2b$14$dTRtdItLbtMenHUc.tuPxukJi3wW.ku86PLBWPLZb8CjncmtCS5fy"
 app = typer.Typer()
 console = Console()
+
 hasher = bcrypt.using(rounds=14)
 
-def verify_master(key=SECRET_KEY):
+def verify_master():
 	master_password = getpass.getpass()
+	load_dotenv()
+	SECRET_KEY = os.environ.get('secretKey')
+	SECRET_USER = os.environ.get('secretUser')
 	passwd = f'{SECRET_KEY}{master_password}'
-	if hasher.verify(passwd, HASH):
+	if hasher.verify(passwd, SECRET_USER):
 		console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink green]Welcome Master[/blink green]")
 		return True
 	else:
@@ -47,7 +51,7 @@ def add(service: str, email: str, name: str='/', password: str='', url: str='/',
 
 			password = gen_password(email, gen_token())
 		else:
-			password = console.input("[purple3]PASS🔒LOCK[/purple3]$ Enter [bold cyan]password[/bold cyan] : ")
+			password = console.input("[purple3]PASS🔒LOCK[/purple3]$ Enter Account [bold cyan]password[/bold cyan] : ")
 		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ adding account to database: {service}|{email}:{password}")
 		account = Account(encrypt(service), encrypt(name), encrypt(email), encrypt(password), encrypt(url))
 		insert_account(account)
