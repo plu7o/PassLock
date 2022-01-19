@@ -93,17 +93,23 @@ def delete_account(id):
 def update_account(id: int, service: str, name: str, email: str, password: str, url: str):
 	with conn:
 		if service is not None and name is not None and email is not None and password is not None and url is not None:
-			c.execute('UPDATE passlock SET service=:service, name=:name, email=:email, password=:password, url=:url WHERE id=:id', {'id': id}, {'service': service}, {'name': name}, {'email': email}, {'password': password}, {'url': url})
+			c.execute('UPDATE passlock SET service=:service, name=:name, email=:email, password=:password, url=:url WHERE id=:id', 
+			{'id': id, 'service': service, 'name': name, 'email': email, 'password': password, 'url': url})
 		elif service is not None:
-			c.execute('UPDATE passlock SET service=:service WHERE id=:id', {'id': id}, {'service': service})
+			c.execute('UPDATE passlock SET service=:service WHERE id=:id', 
+			{'id': id, 'service': service})
 		elif name is not None:
-			c.execute('UPDATE passlock SET name=:name WHERE id=:id', {'id': id}, {'name': name})
+			c.execute('UPDATE passlock SET name=:name WHERE id=:id', 
+			{'id': id, 'name': name})
 		elif email is not None:
-			c.execute('UPDATE passlock SET email=:email WHERE id=:id', {'id': id}, {'email': email})
+			c.execute('UPDATE passlock SET email=:email WHERE id=:id', 
+			{'id': id, 'email': email})
 		elif password is not None:
-			c.execute('UPDATE passlock SET password=:password WHERE id=:id', {'id': id}, {'password': password})
+			c.execute('UPDATE passlock SET password=:password WHERE id=:id', 
+			{'id': id, 'password': password})
 		elif url is not None:
-			c.execute('UPDATE passlock SET url=:url WHERE id=:id', {'id': id}, {'url': url})
+			c.execute('UPDATE passlock SET url=:url WHERE id=:id', 
+			{'id': id, 'url': url})
 		
 		
 
