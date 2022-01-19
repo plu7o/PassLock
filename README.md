@@ -74,7 +74,7 @@ i'm not responsible for any harm that may be caused by yourself or others
     $ python3 passlocker.py update 38950 --email newEmail@gmail.com
 
 #### find account:
-    $ python3 passlocker.py find [service] [OPTIONS]
+    $ python3 passlocker.py find [service] | [OPTIONS]
     $ python3 passlocker.py find facebook | find --all
 
 ---
