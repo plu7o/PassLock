@@ -39,7 +39,7 @@ i'm not responsible for any harm that may be caused by yourself or others
 - [x] Make strong password generator
 - [x] Relocate passlock.db
 - [x] Add requirments.txt
-- [ ] Add short - flags to CLI
+- [x] Add short - flags to CLI
 - [ ] more...?
 
 ---
