@@ -1,8 +1,6 @@
-from hashlib import sha256
 from cryptography.fernet import Fernet
 from passlib.hash import bcrypt
 from os import urandom
-import random
 import string
 import secrets
 

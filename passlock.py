@@ -40,7 +40,7 @@ def get_hash(password: str):
 	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ HASH: {hashed_password}")
 
 @app.command(short_help='Adds Account to Database')
-def add(service: str, email: str, name: str='/', password: str='', url: str='/', genpass: bool=True):
+def add(service: str, email: str, name: str='/', url: str='/', gen: bool=True):
 	if verify_master():
 		if genpass:
 			console.print(f"[purple3]PASS🔒LOCK[/purple3]$ Generating secure password...")
