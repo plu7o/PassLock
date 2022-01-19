@@ -1,40 +1,35 @@
 from hashlib import sha256
-import random
 from cryptography.fernet import Fernet
+from passlib.hash import bcrypt
+from os import urandom
+import random
 import string
+import secrets
 
-key = "Bg3KAwPUyOzp1LZKWFmP-rcz6PcufwLM52GFmHZ_SAc="
-fernet = Fernet(key)
-ALPHABET = string.ascii_letters + string.digits + string.punctuation
-
-def build_password(plain, service):
-	salt = get_hexdigest(key, service)[:20]
-	hash = get_hexdigest(salt, plain)
-	return ''.join((salt, hash))
-
-def get_hexdigest(salt, plain):
-	return sha256((f'{salt}{plain}').encode()).hexdigest()
-
-def encrypt(plaintext):
-	return fernet.encrypt(plaintext.encode())
-
-def decrypt(cypher):
-	return fernet.decrypt(cypher).decode()
+class Passlocker:
+	def __init__(self, KEY):
+		self.fernet = Fernet(KEY)
+		self.hasher = bcrypt.using(rounds=14)
+		self.ALPHABET = string.ascii_letters + string.digits + string.punctuation
 	
-def gen_password(plaintext, service, length=18, alphabet=ALPHABET):
-    raw_hexdigest = build_password(plaintext, service)
+	def encrypt(self, plaintext):
+		return self.fernet.encrypt(plaintext.encode())
 
-    # Convert the hexdigest into decimal
-    num = int(raw_hexdigest, 16)
+	def decrypt(self, cypher):
+		return self.fernet.decrypt(cypher).decode()
+		
+	def gen_password(self, length):
+			if not isinstance(length, int) or length < 8:
+				raise ValueError("temp password must have positive length")
 
-    # What base will we convert `num` into?
-    num_chars = len(alphabet)
+			chars = self.ALPHABET
+			return "".join(chars[c % len(chars)] for c in urandom(length))
+	
+	def gen_token(self, length):
+		alphabet = string.ascii_letters + string.digits #+ string.punctuation
+		token = ''.join(secrets.choice(alphabet) for i in range(length))
+		return token
 
-    # Build up the new password one "digit" at a time,
-    # up to a certain length
-    chars = []
-    while len(chars) < length:
-        num, idx = divmod(num, num_chars)
-        chars.append(alphabet[idx])
-
-    return ''.join(chars)
+	def get_hash(self, password):
+		hashed_password = self.hasher.hash(password)
+		return hashed_password

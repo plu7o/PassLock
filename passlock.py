@@ -9,20 +9,19 @@ import os
 from dotenv import load_dotenv
 from model import Account
 from database import get_account_by_service, get_account_by_email, get_account_by_name, get_all_accounts, insert_account, delete_account, update_account
-from passlocker import gen_password, encrypt, decrypt
+from passlocker import Passlocker
 
 app = typer.Typer()
 console = Console()
-
-hasher = bcrypt.using(rounds=14)
+load_dotenv()
+SECRET_KEY = os.environ.get('secretKey')
+passlocker = Passlocker(SECRET_KEY)
 
 def verify_master():
 	master_password = getpass.getpass()
-	load_dotenv()
-	SECRET_KEY = os.environ.get('secretKey')
 	SECRET_USER = os.environ.get('secretUser')
 	passwd = f'{SECRET_KEY}{master_password}'
-	if hasher.verify(passwd, SECRET_USER):
+	if passlocker.hasher.verify(passwd, SECRET_USER):
 		console.print("[purple3]PASS🔒LOCK[/purple3]$ [blink green]Welcome Master[/blink green]")
 		return True
 	else:
@@ -31,17 +30,14 @@ def verify_master():
 		
 @app.command(short_help='Utility function to generate random 48-long Token')
 def gen_token(length: int=48):
-	alphabet = string.ascii_letters + string.digits #+ string.punctuation
-	token = ''.join(secrets.choice(alphabet) for i in range(length))
+	token = passlocker.gen_token(length)
 	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ TOKEN: {token}")
 
 @app.command(short_help='Utility Hashing function to Hash password using bcrypt')	
 def get_hash(password: str):
 	console.print("[purple3]PASS🔒LOCK[/purple3]$ Generating Hash...")
-	hashed_password = hasher.hash(password)
-	typer.echo(f'HASH: {hashed_password}')
+	hashed_password = passlocker.gen_hash(password)
 	console.print(f"[purple3]PASS🔒LOCK[/purple3]$ HASH: {hashed_password}")
-	return hashed_password
 
 @app.command(short_help='Adds Account to Database')
 def add(service: str, email: str, name: str='/', password: str='', url: str='/', genpass: bool=True):
@@ -49,11 +45,11 @@ def add(service: str, email: str, name: str='/', password: str='', url: str='/',
 		if genpass:
 			console.print(f"[purple3]PASS🔒LOCK[/purple3]$ Generating secure password...")
 
-			password = gen_password(email, gen_token())
+			password = passlocker.gen_password(18)
 		else:
 			password = console.input("[purple3]PASS🔒LOCK[/purple3]$ Enter Account [bold cyan]password[/bold cyan] : ")
 		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ adding account to database: {service}|{email}:{password}")
-		account = Account(encrypt(service), encrypt(name), encrypt(email), encrypt(password), encrypt(url))
+		account = Account(passlocker.encrypt(service), passlocker.encrypt(name), passlocker.encrypt(email), passlocker.encrypt(password), passlocker.encrypt(url))
 		insert_account(account)
 		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ DONE ✅")
 
@@ -67,7 +63,7 @@ def delete(id: int):
 def update(id: int, services: str=None, name: str=None, email: str=None, password: str=None, url: str=None ):
 	if verify_master():
 		console.print(f"[purple3]PASS🔒LOCK[/purple3]$ UPDATING Account: {id}")
-		update_account(id, encrypt(service), encrypt(name), encrypt(email), encrypt(password), encrypt(url))
+		update_account(id, passlocker.encrypt(service), passlocker.encrypt(name), passlocker.encrypt(email), passlocker.encrypt(password), passlocker.encrypt(url))
 	
 @app.command(short_help='Find Account details by Identifier')
 def find(all: bool=False, email: bool=False, name: bool=False):
@@ -92,7 +88,7 @@ def find(all: bool=False, email: bool=False, name: bool=False):
 		table.add_column("Password", min_width=20)
 		table.add_column("URL")
 		for account in accounts:
-			table.add_row(str(account.id), decrypt(account.service), decrypt(account.name), decrypt(account.email), decrypt(account.password), decrypt(account.url))
+			table.add_row(str(account.id), passlocker.decrypt(account.service), passlocker.decrypt(account.name), passlocker.decrypt(account.email), passlocker.decrypt(account.password), passlocker.decrypt(account.url))
 		console.print(table)
 
 banner = """
