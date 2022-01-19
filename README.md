@@ -1,8 +1,8 @@
-### Author
+### Author:
 * plu7o
 
 ---
-### Discription 
+### Discription: 
 
 
 This is Educational Project
@@ -43,7 +43,7 @@ i'm not responsible for any harm that may be caused by yourself or others
 - [ ] more...?
 
 ---
-### Installation
+### Installation:
     $ git clone https://github.com/plu7o/PassLock.git
     $ pip install -r requirments.txt
 
@@ -51,7 +51,14 @@ i'm not responsible for any harm that may be caused by yourself or others
 ### Usage:
     $ python3 passlocker.py COMMAND [OPTIONS] [ARGS]
     $ python3 passlocker.py --help
-
+    	
+    >	Commands:
+    	add        Adds Account to Database
+    	delete     Delete Account in Database
+    	find       Find Account details by Identifier
+    	gen-token  Utility function to generate random 48-long Token
+    	get-hash   Utility Hashing function to Hash password using bcrypt
+    	update     Update Account details
 ---
 ### Example:
 #### Adding account: 
