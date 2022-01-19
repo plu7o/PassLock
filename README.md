@@ -63,7 +63,7 @@ i'm not responsible for any harm that may be caused by yourself or others
 ### Example:
 #### Adding account: 
     $ python3 passlock.py add [service] [email] [OPTIONS]
-    $ python3 passlock.py add facebook test@gamil.com --url https://facebook.com
+    $ python3 passlock.py add google test@gamil.com -u https://google.com
 
 #### Deleting account:
     $ python3 passlock.py delete [ID]
@@ -71,19 +71,18 @@ i'm not responsible for any harm that may be caused by yourself or others
 
 #### Updating account:
     $ python3 passlock.py update [ID] [OPTIONS]
-    $ python3 passlock.py update 38950 --email newEmail@gmail.com
+    $ python3 passlock.py update 38950 --email newemail@gmail.com
 
-#### find account:
-    $ python3 passlock.py find [service] | [OPTIONS]
-    $ python3 passlock.py find facebook | find --all
+#### Find account:
+    $ python3 passlock.py find | [OPTIONS]
+    $ python3 passlock.py find | find -s google
 
 ---
 ### Refrences:
 * https://www.realpythonproject.com/3-ways-to-store-and-read-credentials-locally-in-python/
 * https://martinheinz.dev/blog/59
 * https://charlesleifer.com/blog/creating-a-personal-password-manager/
-* https
-://www.tutorialspoint.com/cryptography_with_python/cryptography_with_python_quick_guide.htm
+* https://www.tutorialspoint.com/cryptography_with_python/cryptography_with_python_quick_guide.htm
 * https://sqreen.github.io/DevelopersSecurityBestPractices/safe-password-storage/python
 
 
