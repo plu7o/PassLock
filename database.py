@@ -5,10 +5,8 @@ from model import Account
 import secrets
 import string
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-conn = sqlite3.connect(os.environ.get('secretPath'))
+conn = sqlite3.connect('passlock.db')
 c = conn.cursor()
 
 def create_table():

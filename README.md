@@ -84,7 +84,9 @@ i'm not responsible for any harm that may be caused by yourself or others
 * https://charlesleifer.com/blog/creating-a-personal-password-manager/
 * https://www.tutorialspoint.com/cryptography_with_python/cryptography_with_python_quick_guide.htm
 * https://sqreen.github.io/DevelopersSecurityBestPractices/safe-password-storage/python
-
-
-
-
+* https://typer.tiangolo.com/tutorial/
+* https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html
+* https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+* https://cloud.google.com/kms/docs/envelope-encryption
+* https://www.realpythonproject.com/3-ways-to-store-and-read-credentials-locally-in-python/
+* https://docs.python.org/3/library/secrets.html
