@@ -8,8 +8,8 @@ from database import get_account_by_service, get_account_by_email, get_account_b
 
 app = typer.Typer()
 console = Console()
-passlocker = Passlocker()
 
+passlocker = Passlocker()
 prefix = '[purple3]PASS🔒LOCK[/purple3]$'
 		
 @app.command(short_help='Utility function to generate random 48-long Token')

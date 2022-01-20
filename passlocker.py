@@ -7,7 +7,6 @@ import os
 import sys
 import string
 import secrets
-import pathlib
 
 class Passlocker:
 	def __init__(self):
@@ -75,8 +74,8 @@ class Passlocker:
 		return token
 
 	def gen_hash(self, input):
-		hashed_password = self.hasher.hash(input)
-		return hashed_password
+		hash = self.hasher.hash(input)
+		return hash
 	
 	def verify_master(self):
 		attempt = 0
