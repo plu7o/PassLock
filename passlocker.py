@@ -60,13 +60,15 @@ class Passlocker:
 	
 	def gen_password(self, length):
 		chars = self.ALPHABET
-		passwd =  "".join(chars[c % len(chars)] for c in os.urandom(length))
-		hash = self.gen_hash(passwd)
-
+		stage_1 =  "".join(chars[c % len(chars)] for c in os.urandom(length))
+		stage_2 = self.gen_hash(stage_1)
+		while True:
+			password =  ''.join(secrets.choice(f'{stage_2}' + chars) for i in range(length)).replace(" ", "")
+			if (any(c.islower() for c in password) and any(c.isupper() for c in password)
+				and sum(c.isdigit() for c in password) >=3):
+				break
+		return password
 		
-		
-		return ''.join(secrets.choice(f'{hash}' + chars) for i in range(length)).replace(" ", "")
-
 	def gen_token(self, length):
 		chars = string.ascii_letters + string.digits
 		token = ''.join(secrets.choice(chars) for i in range(length))
