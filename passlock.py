@@ -14,19 +14,19 @@ prefix = '[purple3]PASS🔒LOCK[/purple3]$'
 		
 @app.command(short_help='Utility function to generate random 48-long Token')
 def gen_token(length: int=typer.Option(48, '-l', help='length of the generated token')):
-	with Halo(text=f"Generating Token", spinner='dots'):
+	with Halo(text=f"Generating Token...", spinner='dots'):
 		token = passlocker.gen_token(length)
 	console.print(f"{prefix} TOKEN: {token}")
 
 @app.command(short_help='Utility Hashing function to Hash password using bcrypt')	
 def gen_hash(password: str):
-	with Halo(text=f"Generating Hash", spinner='dots'):
+	with Halo(text=f"Generating Hash...", spinner='dots'):
 		hashed_password = passlocker.gen_hash(password)
 	console.print(f"{prefix} HASH: {hashed_password}")
 
 @app.command(short_help='Utility function to generate ')
 def gen_password(length: int=typer.Option(12, '-l', help='length of the generated CSPRNG Password')):
-	with Halo(text=f"Generating Password", spinner='dots'):
+	with Halo(text=f"Generating Password...", spinner='dots'):
 		password = passlocker.gen_password(length)
 	console.print(f"{prefix} Password: {password}")
 	
@@ -38,8 +38,8 @@ def add(service: str, email: str, \
 	
 	if passlocker.verify_master():
 		if gen:
-			console.print(f"{prefix} Generating secure password...")
-			password = passlocker.gen_password(18)
+			with Halo(text=f"Generating Password...", spinner='dots'):
+				password = passlocker.gen_password(18)
 		else:
 			password = console.input("{prefix} Enter Account [bold cyan]password[/bold cyan] : ")
 		console.print(f"{prefix} adding account to database: {service} | {email}:{password}")
