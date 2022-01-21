@@ -4,12 +4,13 @@ from rich.console import Console
 from rich.table import Table
 from model import Account
 from passlocker import Passlocker
+
+passlocker = Passlocker()
 from database import get_account_by_service, get_account_by_email, get_account_by_name, get_all_accounts, insert_account, delete_account, update_account
 
 app = typer.Typer()
 console = Console()
 
-passlocker = Passlocker()
 prefix = '[purple3]PASS🔒LOCK[/purple3]$'
 		
 @app.command(short_help='Utility function to generate random 48-long Token')
@@ -41,7 +42,7 @@ def add(service: str, email: str, \
 			with Halo(text=f"Generating Password...", spinner='dots'):
 				password = passlocker.gen_password(18)
 		else:
-			password = console.input("{prefix} Enter Account [bold cyan]password[/bold cyan] : ")
+			password = console.input(f"{prefix} Enter Account [bold cyan]password[/bold cyan] : ")
 		console.print(f"{prefix} adding account to database: {service} | {email}:{password}")
 		
 		account = Account(passlocker.encrypt(service), \
@@ -51,12 +52,14 @@ def add(service: str, email: str, \
 		passlocker.encrypt(url))
 		
 		insert_account(account)
+		console.print(f"{prefix} DONE✅")
 
 @app.command(short_help='Delete Account in Database')
 def delete(id: int):
 	if passlocker.verify_master():
 		console.print(f"{prefix} DELETING Account: {id}")
 		delete_account(id)
+		console.print(f"{prefix} DONE✅")
 
 @app.command(short_help='Update Account details')
 def update(id: int, \
@@ -75,6 +78,7 @@ def update(id: int, \
 
 		console.print(f"{prefix} UPDATING Account: {id}")
 		update_account(id, service, name, email, password, url)
+		console.print(f"{prefix} DONE✅")
 	
 @app.command(short_help='Find Account details by Identifier')
 def find(service: bool=typer.Option(False, '-s', '--service', help='Search accounts by Service'), \
@@ -84,7 +88,7 @@ def find(service: bool=typer.Option(False, '-s', '--service', help='Search accou
 	if passlocker.verify_master():
 		if service:
 			search = console.input(f"{prefix} Find by [bold cyan]Service[/bold cyan]? : ")
-			accounts = get_all_account_by_service(search)
+			accounts = get_account_by_service((search))
 		elif email:
 			search = console.input(f"{prefix} Find by [bold cyan]Email[/bold cyan]? : ")
 			accounts = get_account_by_email(search)

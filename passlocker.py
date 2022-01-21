@@ -7,6 +7,7 @@ import os
 import sys
 import string
 import secrets
+import subprocess
 
 class Passlocker:
 	def __init__(self):
@@ -33,13 +34,16 @@ class Passlocker:
 		secretKEY = secretKEY.decode('utf-8')
 		self.console.print(f"{self.prefix} Generating Hash...")
 		secretUSER = self.gen_hash(f'{secretKEY}{master_password}')
-		self.console.print(f"{self.prefix} writing keys")
+		self.console.print(f"{self.prefix} Setting up Database...")
+		subprocess.run(['mkdir','/root/.passlock'])
+		self.console.print(f"{self.prefix} Writing keys...")
 		self.write_keys(secretKEY, secretUSER)
 	
 	def write_keys(self, secretKEY, secretUSER):
 		keys = [f'secretKey="{secretKEY}"\n', f'secretUser="{secretUSER}"\n']
 		with open(os.path.join(sys.path[0], '.env'), 'w', encoding='utf-8') as f:
 			f.writelines(keys)	
+			f.write('secretPath="/root/.passlock/passlock.db"')
 
 	def load_key(self, key):
 		load_dotenv()

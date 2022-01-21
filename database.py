@@ -5,8 +5,12 @@ from model import Account
 import secrets
 import string
 import os
+from dotenv import load_dotenv
+import subprocess
 
-conn = sqlite3.connect('passlock.db')
+
+SECRET_PATH = os.environ.get('secretPath')
+conn = sqlite3.connect(SECRET_PATH)
 c = conn.cursor()
 
 def create_table():
@@ -21,6 +25,7 @@ def create_table():
 		)""")
 
 create_table()
+subprocess.run(['chmod', '600', SECRET_PATH])
 
 def get_all_accounts() -> List[Account]:
 	with conn:	
